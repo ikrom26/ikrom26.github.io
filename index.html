@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ikrom — Software Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f3ef;
+    --fg: #111111;
+    --muted: #888;
+    --accent: #111;
+    --border: #d8d4cc;
+    --tag-bg: #e8e4de;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── Layout ── */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ── Nav ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 0;
+  }
+  nav .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    color: var(--fg);
+  }
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--fg); }
+
+  /* ── Hero ── */
+  #hero {
+    padding: 10rem 0 6rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+  .hero-name {
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+  .hero-name span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(18px);
+    animation: rise 0.5s forwards;
+  }
+  .hero-name span:nth-child(1) { animation-delay: 0.05s; }
+  .hero-name span:nth-child(2) { animation-delay: 0.12s; }
+  .hero-name span:nth-child(3) { animation-delay: 0.19s; }
+  .hero-role {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+    opacity: 0;
+    animation: rise 0.5s 0.35s forwards;
+  }
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Sections ── */
+  section {
+    padding: 5rem 0;
+    border-bottom: 1px solid var(--border);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 3rem;
+  }
+
+  /* ── Bio ── */
+  .bio-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+  .bio-text {
+    font-size: 14px;
+    line-height: 1.85;
+    color: #333;
+    grid-column: 1 / -1;
+  }
+  .bio-text a {
+    color: var(--fg);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .bio-text p + p { margin-top: 1.2rem; }
+
+  /* ── Stack ── */
+  .stack-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+  }
+  .stack-item {
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    padding: 0.35rem 0.8rem;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    border-radius: 2px;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .stack-item:hover {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+  }
+
+  /* ── Work table ── */
+  .work-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .work-table thead tr {
+    border-bottom: 1px solid var(--border);
+  }
+  .work-table th {
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-bottom: 1rem;
+    font-weight: 400;
+  }
+  .work-table th:last-child,
+  .work-table td:last-child { text-align: right; }
+  .work-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .work-table tbody tr:hover { background: rgba(0,0,0,0.025); }
+  .work-table td {
+    padding: 1.2rem 0;
+    font-size: 13px;
+    vertical-align: top;
+  }
+  .work-table td a {
+    color: var(--fg);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    transition: border-color 0.2s;
+  }
+  .work-table td a:hover { border-color: var(--fg); }
+  .work-desc {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 0.3rem;
+    font-style: italic;
+  }
+  .tag {
+    display: inline-block;
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    padding: 0.2rem 0.55rem;
+    font-size: 11px;
+    border-radius: 2px;
+    margin-left: 0.3rem;
+    letter-spacing: 0.03em;
+  }
+
+  /* ── Links ── */
+  .links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .link-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.9rem 1.2rem;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--fg);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    border-radius: 3px;
+    transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+    cursor: pointer;
+  }
+  .link-btn:hover {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+    transform: translateY(-2px);
+  }
+  .link-btn .icon {
+    font-size: 14px;
+    opacity: 0.7;
+  }
+
+  /* ── Footer ── */
+  footer {
+    padding: 2.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    opacity: 0;
+    animation: rise 0.5s 0.8s forwards;
+  }
+  footer .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .footer-text {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+  .back-top {
+    font-size: 11px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    transition: color 0.2s;
+  }
+  .back-top:hover { color: var(--fg); }
+
+  /* ── Cursor blink ── */
+  .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 0.85em;
+    background: var(--fg);
+    margin-left: 2px;
+    vertical-align: middle;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .bio-grid { grid-template-columns: 1fr; }
+    .nav-links { gap: 1.2rem; }
+    .work-table th:nth-child(2),
+    .work-table td:nth-child(2) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="container">
+    <a href="#hero" class="nav-logo">ikrom.dev</a>
+    <ul class="nav-links">
+      <li><a href="#about">about</a></li>
+      <li><a href="#work">work</a></li>
+      <li><a href="#links">links</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="container">
+    <p class="hero-label">software developer</p>
+    <h1 class="hero-name">
+      <span>Ikrom</span>&nbsp;<span>Naza&shy;rov</span><span class="cursor"></span>
+    </h1>
+    <p class="hero-role">building digital products &amp; user-centered experiences</p>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <p class="section-label">about</p>
+    <div class="bio-grid">
+      <div class="bio-text">
+        <p>Hello, I'm Ikrom — a software developer focused on building both digital products and user-centered experiences. Over the past several years, I've been developing and leading product innovation, including Telegram-based solutions like <a href="https://t.me/Smile_Todo_Bot" target="_blank">@Smile_Todo_Bot</a>.</p>
+        <p>I've also created SaaS platforms such as <a href="http://hampo.uz" target="_blank">hampo.uz</a>, an ERP system designed to streamline workflows for small and medium-sized businesses.</p>
+        <p>I'm a self-taught developer with a strong foundation in coding and design, continuously learning and improving through hands-on projects and real-world problem solving.</p>
+      </div>
+    </div>
+
+    <br><br>
+    <p class="section-label">tech stack</p>
+    <div class="stack-list">
+      <span class="stack-item">Python</span>
+      <span class="stack-item">JavaScript</span>
+      <span class="stack-item">TypeScript</span>
+      <span class="stack-item">Node.js</span>
+      <span class="stack-item">React</span>
+      <span class="stack-item">PostgreSQL</span>
+      <span class="stack-item">Docker</span>
+      <span class="stack-item">Telegram Bot API</span>
+      <span class="stack-item">REST API</span>
+      <span class="stack-item">Git</span>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="container">
+    <p class="section-label">work</p>
+    <table class="work-table">
+      <thead>
+        <tr>
+          <th>Project</th>
+          <th>Year</th>
+          <th>Tags</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <a href="http://hampo.uz" target="_blank">hampo.uz</a>
+            <div class="work-desc">ERP SaaS platform for small &amp; medium businesses</div>
+          </td>
+          <td>2023 – Present</td>
+          <td><span class="tag">SaaS</span><span class="tag">ERP</span></td>
+        </tr>
+        <tr>
+          <td>
+            <a href="https://t.me/Smile_Todo_Bot" target="_blank">@Smile_Todo_Bot</a>
+            <div class="work-desc">Telegram-based productivity &amp; task management bot</div>
+          </td>
+          <td>2022</td>
+          <td><span class="tag">Telegram</span><span class="tag">Bot</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- LINKS -->
+<section id="links">
+  <div class="container">
+    <p class="section-label">links</p>
+    <div class="links-grid">
+      <a href="mailto:ikrom2w@gmail.com" class="link-btn">
+        <span class="icon">✉</span> Email
+      </a>
+      <a href="http://hampo.uz" target="_blank" class="link-btn">
+        <span class="icon">◻</span> hampo.uz
+      </a>
+      <a href="https://t.me/Smile_Todo_Bot" target="_blank" class="link-btn">
+        <span class="icon">▷</span> Smile Todo Bot
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <span class="footer-text">© 2026 Ikrom — built with care</span>
+    <a href="#hero" class="back-top">↑ back to top</a>
+  </div>
+</footer>
+
+<script>
+  // Intersection Observer for section fade-in
+  const sections = document.querySelectorAll('section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
